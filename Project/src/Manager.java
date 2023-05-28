@@ -34,13 +34,13 @@ public class Manager {
         factory.close();
     }
   
-    public static Employee addEmployee(String firstName, String lastName, int salary){
+    public static Cart addCart(String type){
         Session session = factory.openSession();
         Transaction tx = null;
-        Employee result = null;
+        Cart result = null;
         try {
             tx = session.beginTransaction();
-            result = new Employee(firstName, lastName, salary);
+            result = new Cart(type);
             session.save(result); 
             tx.commit();
         } catch (HibernateException e) {
@@ -53,13 +53,13 @@ public class Manager {
         return result;
     }
 
-    public static Contact addContact(String lname, String lmail){
+    public static Item addItem(String name){
         Session session = factory.openSession();
         Transaction tx = null;
-        Contact result = null;
+        Item result = null;
         try {
             tx = session.beginTransaction();
-            result = new Contact(lname, lmail);
+            result = new Item(name);
             session.save(result); 
             tx.commit();
         } catch (HibernateException e) {
@@ -88,16 +88,14 @@ public class Manager {
         }
         return obj;
     }
-    
-    public static void updateContact(long contactId, String name, String email, Set<Employee> employees){
+
+    public static void updateItem(long itemId, String name){
         Session session = factory.openSession();
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
-            Contact obj = (Contact) session.get(Contact.class, contactId); 
+            Item obj = (Item) session.get(Item.class, itemId); 
             obj.setName(name);
-            obj.setEmail(email);
-            obj.setEmployees(employees);
             session.update(obj); 
             tx.commit();
         } catch (HibernateException e) {
@@ -107,16 +105,15 @@ public class Manager {
             session.close(); 
         }
     }
-
-    public static void updateEmployee(long employeeId, String firstName, String lastName, int salary){
+    
+    public static void updateCart(long cartId, String type, Set<Item> items){
         Session session = factory.openSession();
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
-            Employee obj = (Employee) session.get(Employee.class, employeeId); 
-            obj.setFirstName(firstName);
-            obj.setLastName(lastName);
-            obj.setSalary(salary);
+            Cart obj = (Cart) session.get(Cart.class, cartId); 
+            obj.setType(type);
+            obj.setItems(items);
             session.update(obj); 
             tx.commit();
         } catch (HibernateException e) {
