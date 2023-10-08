@@ -18,5 +18,3 @@ Per executar el projecte a Windows cal
 
 Per executar el projecte a Linux/macOS cal
 ./run.sh com.project.Main
-
-
